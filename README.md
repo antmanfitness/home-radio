@@ -1,0 +1,46 @@
+# Home Radio
+
+A senior-simple live-radio web app for Krishna’s mom. Large CarPlay-style station tiles, a big now-playing bar, favorites, a sleep timer, and an obvious **AirPlay** button so she can send sound to a HomePod or Apple TV.
+
+This is a static site (no build step). It follows the phone’s light/dark mode, uses a system/SF font, and respects **Reduce Transparency** and **Increase Contrast**.
+
+## Live site
+
+https://antmanfitness.github.io/home-radio/
+
+## Put it on her iPhone
+
+1. Open the live link above in **Safari** (AirPlay only works in Safari, not in Chrome).
+3. Tap **Share** → **Add to Home Screen**. Open it from the new Radio icon.
+4. Tap a station. To hear it on a HomePod or Apple TV, tap **AirPlay** in the now-playing bar and pick the speaker (same Wi‑Fi).
+5. Lock the phone — play, pause, and next/previous station work from the lock screen and Control Center.
+
+### What a web app cannot do
+
+A website cannot appear as a source in the **Home** app or in **CarPlay**. The reliable path into Apple Home is AirPlay from Safari (or the Home Screen app, which is still Safari). Media Session covers the lock screen.
+
+## Features borrowed from popular radio apps
+
+Kept only what stays simple for her:
+
+- **Apple Music Radio / CarPlay:** large rounded station tiles, a big persistent now-playing bar, typography and spacing, a clearly labeled AirPlay control, and lock-screen / Control Center playback.
+- **TuneIn:** Favorites (heart), a full station list, and a sleep timer with a countdown.
+- **iHeartRadio:** live radio presented as a logo/tile grid, a sleep timer, and a persistent player so play/pause is always in reach.
+- **Radio Garden:** the idea of “tap a station, it just plays.” The globe map was left out — too fussy for everyday use.
+
+Left out on purpose: search, accounts, podcasts, alarms, recommendations, and a world map.
+
+## Stations
+
+The list is built for Krishna’s mom: local NJ/NY South Asian stations first (Radio Mirchi USA and Radio Zindagi in Edison at the top), plus a smaller **From India** group (Vividh Bharati, AIR FM Gold, Club Mirchi). Only HTTPS streams that were verified to return audio are included. Edit `stations.js` to add or change stations.
+
+Favorites are stored only on the phone (localStorage).
+
+## Local preview
+
+```bash
+cd /workspace/home-radio
+python3 -m http.server 8787
+```
+
+Open http://127.0.0.1:8787 — AirPlay itself is a Safari-on-Apple-device feature and will not appear in Chrome on Linux.

@@ -3,6 +3,122 @@
   const STORAGE_FAVS = "homeRadio.favorites";
   const STORAGE_LAST = "homeRadio.lastStation";
   const STORAGE_INSTALL = "homeRadio.hideInstall";
+  const STORAGE_BIG = "homeRadio.bigText";
+  const STORAGE_LANG = "homeRadio.lang";
+
+  const RECONNECT_DELAYS = [2000, 5000, 10000, 15000];
+  const RECONNECT_MAX_MS = 5 * 60 * 1000;
+  const WAITING_RECONNECT_MS = 8000;
+  const NOWPLAYING_POLL_MS = 20000;
+
+  const STRINGS = {
+    en: {
+      appTitle: "Radio",
+      favorites: "Favorites",
+      allStations: "All Stations",
+      stationLists: "Station lists",
+      sectionLocal: "New York & New Jersey",
+      sectionIndia: "From India",
+      chooseStation: "Choose a station",
+      tapToPlayHint: "Tap a station to play",
+      ready: "Ready",
+      live: "Live",
+      paused: "Paused",
+      sleep: "Sleep",
+      airplay: "AirPlay",
+      airplayAria: "AirPlay — send sound to a HomePod or Apple TV",
+      airplayWireless: "AirPlay · playing on a speaker",
+      play: "Play",
+      pause: "Pause",
+      prev: "Previous station",
+      next: "Next station",
+      sleepTimer: "Sleep timer",
+      sleepLead: "The radio will fade out and stop after this time.",
+      min15: "15 minutes",
+      min30: "30 minutes",
+      min45: "45 minutes",
+      min60: "1 hour",
+      min90: "90 minutes",
+      dontStop: "Don’t stop",
+      cancel: "Cancel",
+      done: "Done",
+      settings: "Settings",
+      biggerText: "Bigger text",
+      biggerTextHint: "Makes buttons and words easier to read",
+      language: "Language",
+      installHtml: "<strong>Add this to the Home Screen</strong> so Radio is easy to open: tap the Share button, then <strong>Add to Home Screen</strong>.",
+      dismiss: "Dismiss",
+      emptyFavTitle: "No favorites yet",
+      emptyFavBody: "On All Stations, tap the heart on a station you love. It will show up here so it’s easy to find.",
+      showAll: "Show all stations",
+      airplayTitle: "Play on a HomePod or Apple TV",
+      airplayHelp1: "Open this page in <strong>Safari</strong> on iPhone or iPad, start a station, then tap <strong>AirPlay</strong> and choose the speaker. A web app can’t appear in the Home app or CarPlay, but AirPlay sends the sound to any HomePod or Apple TV on the same Wi‑Fi.",
+      airplayHelp2: "On a Mac, the AirPlay button in Safari’s media controls also works.",
+      ok: "OK",
+      tapToPlay: "Tap to play",
+      reconnecting: "Reconnecting…",
+      cantReach: "Can’t reach the station. Tap play to try again.",
+      cantPlay: "Can’t play this station. Try again, or pick another.",
+      sleepSet: "Sleep timer: {n} minutes",
+      sleepOff: "Sleep timer off",
+      sleepEnded: "Sleep timer ended. Radio is off.",
+      addFav: "Add to favorites",
+      removeFav: "Remove from favorites"
+    },
+    hi: {
+      appTitle: "रेडियो",
+      favorites: "पसंदीदा",
+      allStations: "सभी स्टेशन",
+      stationLists: "स्टेशन सूची",
+      sectionLocal: "न्यूयॉर्क और न्यू जर्सी",
+      sectionIndia: "भारत से",
+      chooseStation: "स्टेशन चुनें",
+      tapToPlayHint: "चलाने के लिए स्टेशन टैप करें",
+      ready: "तैयार",
+      live: "लाइव",
+      paused: "रुका हुआ",
+      sleep: "स्लीप",
+      airplay: "AirPlay",
+      airplayAria: "AirPlay — आवाज़ HomePod या Apple TV पर भेजें",
+      airplayWireless: "AirPlay · स्पीकर पर चल रहा है",
+      play: "चलाएँ",
+      pause: "रोकें",
+      prev: "पिछला स्टेशन",
+      next: "अगला स्टेशन",
+      sleepTimer: "स्लीप टाइमर",
+      sleepLead: "रेडियो इतने समय बाद धीरे से बंद हो जाएगा।",
+      min15: "15 मिनट",
+      min30: "30 मिनट",
+      min45: "45 मिनट",
+      min60: "1 घंटा",
+      min90: "90 मिनट",
+      dontStop: "बंद न करें",
+      cancel: "रद्द करें",
+      done: "हो गया",
+      settings: "सेटिंग्स",
+      biggerText: "बड़े अक्षर",
+      biggerTextHint: "बटन और शब्द पढ़ने में आसान होंगे",
+      language: "भाषा",
+      installHtml: "<strong>इसे होम स्क्रीन पर जोड़ें</strong> ताकि रेडियो खोलना आसान रहे: Share बटन टैप करें, फिर <strong>Add to Home Screen</strong>।",
+      dismiss: "बंद करें",
+      emptyFavTitle: "अभी कोई पसंदीदा नहीं",
+      emptyFavBody: "सभी स्टेशन पर, जो स्टेशन पसंद हो उसके दिल पर टैप करें। वह यहाँ दिखेगा, ताकि आसानी से मिल जाए।",
+      showAll: "सभी स्टेशन दिखाएँ",
+      airplayTitle: "HomePod या Apple TV पर चलाएँ",
+      airplayHelp1: "iPhone या iPad पर <strong>Safari</strong> में यह पेज खोलें, स्टेशन चलाएँ, फिर <strong>AirPlay</strong> टैप करके स्पीकर चुनें। यह ऐप Home या CarPlay में नहीं दिखता, लेकिन AirPlay से उसी वाई-फ़ाई पर किसी भी HomePod या Apple TV पर आवाज़ जा सकती है।",
+      airplayHelp2: "Mac पर, Safari के मीडिया नियंत्रण में AirPlay बटन भी चलता है।",
+      ok: "ठीक है",
+      tapToPlay: "चलाने के लिए टैप करें",
+      reconnecting: "फिर से कनेक्ट हो रहा है…",
+      cantReach: "स्टेशन नहीं मिल रहा। फिर कोशिश करने के लिए चलाएँ टैप करें।",
+      cantPlay: "यह स्टेशन नहीं चल रहा। फिर कोशिश करें, या दूसरा चुनें।",
+      sleepSet: "स्लीप टाइमर: {n} मिनट",
+      sleepOff: "स्लीप टाइमर बंद",
+      sleepEnded: "स्लीप टाइमर समाप्त। रेडियो बंद है।",
+      addFav: "पसंदीदा में जोड़ें",
+      removeFav: "पसंदीदा से हटाएँ"
+    }
+  };
 
   /* Trailing-slash-safe base for GitHub Pages (/home-radio/) and local preview. */
   function appBase() {
@@ -16,34 +132,79 @@
     return url;
   }
 
-
   const stations = window.STATIONS || [];
   const audio = document.getElementById("player");
   const gridEl = document.getElementById("grid");
   const toastEl = document.getElementById("toast");
   const installEl = document.getElementById("installTip");
   const sleepSheet = document.getElementById("sleepSheet");
+  const settingsSheet = document.getElementById("settingsSheet");
   const airplayHelp = document.getElementById("airplayHelp");
+  const resumeEl = document.getElementById("resumePlay");
 
-  const state = {
-    view: "all", // "all" | "favorites"
-    favorites: loadFavs(),
-    currentId: (function () {
+  function loadLang() {
+    try {
+      const v = localStorage.getItem(STORAGE_LANG);
+      return v === "hi" ? "hi" : "en";
+    } catch {
+      return "en";
+    }
+  }
+  function loadBigText() {
+    try { return localStorage.getItem(STORAGE_BIG) === "1"; } catch { return false; }
+  }
+  function loadLastId() {
+    try {
       const last = localStorage.getItem(STORAGE_LAST);
       if (last && stations.some((s) => s.id === last)) return last;
-      return stations[0]?.id || null;
-    })(),
+    } catch { /* ignore */ }
+    return null;
+  }
+
+  const state = {
+    view: "all",
+    favorites: loadFavs(),
+    currentId: loadLastId() || stations[0]?.id || null,
+    hasLast: !!loadLastId(),
     playing: false,
+    wantPlay: false,
+    pendingResume: false,
+    reconnecting: false,
     sleepEndsAt: null,
     sleepLabel: null,
     airplayAvailable: false,
     airplayWireless: false,
-    error: ""
+    error: "",
+    trackTitle: "",
+    trackArtist: "",
+    lang: loadLang(),
+    bigText: loadBigText()
   };
 
   let sleepTick = null;
   let toastTimer = null;
   let fadeTimer = null;
+  let reconnectTimer = null;
+  let reconnectStartedAt = 0;
+  let reconnectAttempt = 0;
+  let waitingTimer = null;
+  let nowPlayingTimer = null;
+  let nowPlayingAbort = null;
+
+  function t(key, vars) {
+    const pack = STRINGS[state.lang] || STRINGS.en;
+    let s = pack[key] || STRINGS.en[key] || key;
+    if (vars) s = s.replace(/\{n\}/g, String(vars.n));
+    return s;
+  }
+  function stationName(s) {
+    if (!s) return "";
+    return state.lang === "hi" && s.nameHi ? s.nameHi : s.name;
+  }
+  function stationTag(s) {
+    if (!s) return "";
+    return state.lang === "hi" && s.taglineHi ? s.taglineHi : s.tagline;
+  }
 
   function loadFavs() {
     try {
@@ -70,6 +231,49 @@
     toastTimer = setTimeout(() => { toastEl.hidden = true; }, ms);
   }
 
+  function applyI18n() {
+    document.documentElement.lang = state.lang === "hi" ? "hi" : "en";
+    document.title = t("appTitle");
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      el.textContent = t(el.getAttribute("data-i18n"));
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+      el.innerHTML = t(el.getAttribute("data-i18n-html"));
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
+    });
+    document.getElementById("resumeLabel").textContent = t("tapToPlay");
+  }
+
+  function applyBigText() {
+    document.documentElement.classList.toggle("big-text", !!state.bigText);
+    const btn = document.getElementById("bigTextToggle");
+    if (btn) btn.setAttribute("aria-checked", state.bigText ? "true" : "false");
+  }
+
+  function applyLangButtons() {
+    document.querySelectorAll(".lang-opt").forEach((btn) => {
+      btn.setAttribute("aria-pressed", btn.dataset.lang === state.lang ? "true" : "false");
+    });
+  }
+
+  function setLang(lang) {
+    state.lang = lang === "hi" ? "hi" : "en";
+    try { localStorage.setItem(STORAGE_LANG, state.lang); } catch { /* ignore */ }
+    applyI18n();
+    applyLangButtons();
+    updateMediaSession();
+    render();
+    renderResume();
+  }
+
+  function setBigText(on) {
+    state.bigText = !!on;
+    try { localStorage.setItem(STORAGE_BIG, state.bigText ? "1" : "0"); } catch { /* ignore */ }
+    applyBigText();
+  }
+
   /* ---------- render ---------- */
   function iconHeart(filled) {
     const d = "M12 21s-7.2-4.6-9.8-8.8C.2 9.4 1.2 5.5 4.6 4.4 6.8 3.7 9 4.5 12 7.6c3-3.1 5.2-3.9 7.4-3.2 3.4 1.1 4.4 5 2.4 8.8C19.2 16.4 12 21 12 21z";
@@ -88,14 +292,15 @@
   function tileHTML(s) {
     const fav = state.favorites.has(s.id);
     const playing = s.id === state.currentId && state.playing;
+    const name = stationName(s);
     return `
       <div class="tile ${playing ? "is-playing" : ""}" role="button" tabindex="0"
-           data-play="${s.id}" aria-label="Play ${s.name}">
+           data-play="${s.id}" aria-label="${t("play")} ${escapeHtml(name)}">
         <div class="monogram" style="background:${s.color}">${s.monogram}</div>
-        <h2 class="tile__name">${escapeHtml(s.name)}</h2>
-        <p class="tile__tag">${playing ? `<span class="live-dot">Live</span> · ` : ""}${escapeHtml(s.tagline)}</p>
+        <h2 class="tile__name">${escapeHtml(name)}</h2>
+        <p class="tile__tag">${playing ? `<span class="live-dot">${escapeHtml(t("live"))}</span> · ` : ""}${escapeHtml(stationTag(s))}</p>
         <button class="heart ${fav ? "is-on" : ""}" type="button" data-fav="${s.id}"
-          aria-label="${fav ? "Remove from favorites" : "Add to favorites"}"
+          aria-label="${fav ? t("removeFav") : t("addFav")}"
           aria-pressed="${fav}">${iconHeart(fav)}</button>
       </div>`;
   }
@@ -105,9 +310,9 @@
     if (state.view === "favorites" && list.length === 0) {
       gridEl.innerHTML = `
         <div class="empty">
-          <h2>No favorites yet</h2>
-          <p>On All Stations, tap the heart on a station you love. It will show up here so it’s easy to find.</p>
-          <button class="btn-solid" type="button" id="showAllBtn">Show all stations</button>
+          <h2>${escapeHtml(t("emptyFavTitle"))}</h2>
+          <p>${escapeHtml(t("emptyFavBody"))}</p>
+          <button class="btn-solid" type="button" id="showAllBtn">${escapeHtml(t("showAll"))}</button>
         </div>`;
       document.getElementById("showAllBtn").addEventListener("click", () => {
         state.view = "all";
@@ -117,8 +322,8 @@
     }
     if (state.view === "all") {
       const groups = [
-        { title: "New York & New Jersey", items: stations.filter((s) => s.section === "local") },
-        { title: "From India", items: stations.filter((s) => s.section === "india") }
+        { title: t("sectionLocal"), items: stations.filter((s) => s.section === "local") },
+        { title: t("sectionIndia"), items: stations.filter((s) => s.section === "india") }
       ];
       gridEl.innerHTML = groups.filter((g) => g.items.length).map((g) => `
         <section class="station-section">
@@ -130,30 +335,54 @@
     gridEl.innerHTML = `<div class="grid">${list.map(tileHTML).join("")}</div>`;
   }
 
+  function trackLine() {
+    const title = (state.trackTitle || "").trim();
+    const artist = (state.trackArtist || "").trim();
+    if (title && artist) return `${title} — ${artist}`;
+    return title || artist || "";
+  }
+
   function renderNow() {
     const s = byId(state.currentId) || stations[0];
-    if (!s) return;
+    const nowName = document.getElementById("nowName");
+    const sub = document.getElementById("nowSub");
+    if (!s) {
+      nowName.textContent = t("chooseStation");
+      sub.textContent = t("tapToPlayHint");
+      return;
+    }
     document.getElementById("nowArt").style.background = s.color;
     document.getElementById("nowArt").textContent = s.monogram;
-    document.getElementById("nowName").textContent = s.name;
-    const sub = document.getElementById("nowSub");
-    if (state.error) {
+    nowName.textContent = stationName(s);
+
+    if (state.reconnecting && state.wantPlay) {
+      sub.innerHTML = `<span class="status-reconnect">${escapeHtml(t("reconnecting"))}</span>`;
+    } else if (state.error) {
       sub.innerHTML = `<span class="status-error">${escapeHtml(state.error)}</span>`;
     } else if (state.sleepEndsAt) {
-      sub.innerHTML = `${state.playing ? `<span class="live-dot">Live</span>` : "Paused"} · Sleep ${fmtRemain()}`;
+      const song = state.playing ? trackLine() : "";
+      const head = state.playing
+        ? `<span class="live-dot">${escapeHtml(t("live"))}</span>`
+        : escapeHtml(t("paused"));
+      sub.innerHTML = song
+        ? `${head} · ${escapeHtml(song)} · ${escapeHtml(t("sleep"))} ${escapeHtml(fmtRemain())}`
+        : `${head} · ${escapeHtml(t("sleep"))} ${escapeHtml(fmtRemain())}`;
+    } else if (state.playing) {
+      const song = trackLine();
+      sub.innerHTML = song
+        ? `<span class="live-dot">${escapeHtml(t("live"))}</span> · ${escapeHtml(song)}`
+        : `<span class="live-dot">${escapeHtml(t("live"))}</span> · ${escapeHtml(stationTag(s))}`;
     } else {
-      sub.innerHTML = state.playing
-        ? `<span class="live-dot">Live</span> · ${escapeHtml(s.tagline)}`
-        : `Ready · ${escapeHtml(s.tagline)}`;
+      sub.textContent = `${t("ready")} · ${stationTag(s)}`;
     }
+
     const playBtn = document.getElementById("playBtn");
-    playBtn.setAttribute("aria-label", state.playing ? "Pause" : "Play");
+    playBtn.setAttribute("aria-label", state.playing ? t("pause") : t("play"));
     playBtn.innerHTML = state.playing ? iconPause() : iconPlay();
 
     const air = document.getElementById("airplayBtn");
     air.classList.toggle("is-wireless", state.airplayWireless);
-    if (state.airplayWireless) air.setAttribute("aria-label", "AirPlay · playing on a speaker");
-    else air.setAttribute("aria-label", "AirPlay — send sound to a HomePod or Apple TV");
+    air.setAttribute("aria-label", state.airplayWireless ? t("airplayWireless") : t("airplayAria"));
 
     const sleepBtn = document.getElementById("sleepBtn");
     sleepBtn.classList.toggle("is-active", !!state.sleepEndsAt);
@@ -166,10 +395,25 @@
     }
   }
 
+  function renderResume() {
+    const s = byId(state.currentId);
+    const show = !!(state.pendingResume && s && state.wantPlay);
+    resumeEl.hidden = !show;
+    if (show) {
+      document.getElementById("resumeLabel").textContent = t("tapToPlay");
+      document.getElementById("resumeStation").textContent = stationName(s);
+      document.getElementById("resumePlayBtn").setAttribute(
+        "aria-label",
+        `${t("tapToPlay")} ${stationName(s)}`
+      );
+    }
+  }
+
   function render() {
     renderTabs();
     renderGrid();
     renderNow();
+    renderResume();
   }
 
   function escapeHtml(str) {
@@ -191,8 +435,16 @@
     const changed = state.currentId !== id;
     state.currentId = id;
     state.error = "";
-    localStorage.setItem(STORAGE_LAST, id);
-    if (changed || audio.src !== s.stream) {
+    state.wantPlay = true;
+    if (changed) {
+      state.trackTitle = "";
+      state.trackArtist = "";
+    }
+    if (user) state.pendingResume = false;
+    try { localStorage.setItem(STORAGE_LAST, id); } catch { /* ignore */ }
+    state.hasLast = true;
+    if (user) clearReconnect({ keepWant: true });
+    if (changed || audio.getAttribute("src") !== s.stream) {
       audio.pause();
       audio.src = s.stream;
       audio.load();
@@ -200,31 +452,61 @@
     try {
       await audio.play();
       state.playing = true;
+      state.pendingResume = false;
+      state.reconnecting = false;
+      state.error = "";
     } catch (err) {
       state.playing = false;
-      if (user) {
-        state.error = "Can’t play this station. Try again, or pick another.";
-        toast(state.error);
+      const blocked = isAutoplayBlock(err);
+      if (blocked && !user) {
+        state.pendingResume = true;
+      } else if (state.wantPlay && !blocked) {
+        scheduleReconnect();
+      } else if (user && blocked) {
+        state.pendingResume = true;
+      } else if (user) {
+        state.error = t("cantPlay");
       }
     }
     updateMediaSession();
     render();
   }
 
-  function pause() {
+  function isAutoplayBlock(err) {
+    if (!err) return false;
+    const name = err.name || "";
+    const msg = String(err.message || err).toLowerCase();
+    return name === "NotAllowedError" || msg.includes("user didn't interact") || msg.includes("autoplay");
+  }
+
+  function userStop() {
+    state.wantPlay = false;
+    state.pendingResume = false;
+    state.reconnecting = false;
+    state.error = "";
+    clearReconnect({ keepWant: false });
+    stopNowPlayingPoll();
     audio.pause();
     state.playing = false;
     updateMediaSession();
-    renderNow();
+    render();
+  }
+
+  function pause() {
+    userStop();
   }
 
   function togglePlay() {
-    if (!state.currentId) {
-      playStation(stations[0].id);
+    if (state.playing || (state.wantPlay && !state.pendingResume && state.reconnecting)) {
+      userStop();
       return;
     }
-    if (state.playing) pause();
-    else playStation(state.currentId);
+    if (!state.currentId) {
+      if (!stations[0]) return;
+      playStation(stations[0].id, { user: true });
+      return;
+    }
+    playStation(state.currentId, { user: true });
   }
 
   function step(dir) {
@@ -233,7 +515,7 @@
     const pool = list.length ? list : fallback;
     const idx = Math.max(0, pool.findIndex((s) => s.id === state.currentId));
     const next = pool[(idx + dir + pool.length) % pool.length];
-    playStation(next.id);
+    playStation(next.id, { user: true });
   }
 
   function toggleFav(id) {
@@ -243,9 +525,227 @@
     render();
   }
 
+  /* ---------- Auto-reconnect ---------- */
+  function clearReconnect({ keepWant } = {}) {
+    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+    if (waitingTimer) { clearTimeout(waitingTimer); waitingTimer = null; }
+    reconnectAttempt = 0;
+    reconnectStartedAt = 0;
+    state.reconnecting = false;
+    if (!keepWant) { /* caller manages wantPlay */ }
+  }
+
+  function giveUpReconnect() {
+    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+    if (waitingTimer) { clearTimeout(waitingTimer); waitingTimer = null; }
+    reconnectAttempt = 0;
+    reconnectStartedAt = 0;
+    state.reconnecting = false;
+    if (state.wantPlay) state.error = t("cantReach");
+    state.playing = false;
+    updateMediaSession();
+    renderNow();
+    renderResume();
+  }
+
+  function scheduleReconnect() {
+    if (!state.wantPlay || state.pendingResume) return;
+    if (!reconnectStartedAt) reconnectStartedAt = Date.now();
+    if (Date.now() - reconnectStartedAt > RECONNECT_MAX_MS) {
+      giveUpReconnect();
+      return;
+    }
+    if (reconnectTimer) return;
+    const idx = Math.min(reconnectAttempt, RECONNECT_DELAYS.length - 1);
+    const delay = RECONNECT_DELAYS[idx];
+    reconnectAttempt += 1;
+    state.reconnecting = true;
+    state.error = "";
+    renderNow();
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      tryReconnect();
+    }, delay);
+  }
+
+  function tryReconnect() {
+    if (!state.wantPlay || state.pendingResume) return;
+    if (reconnectStartedAt && Date.now() - reconnectStartedAt > RECONNECT_MAX_MS) {
+      giveUpReconnect();
+      return;
+    }
+    const s = byId(state.currentId);
+    if (!s) return;
+    state.reconnecting = true;
+    state.error = "";
+    renderNow();
+    try {
+      audio.pause();
+      audio.src = s.stream;
+      audio.load();
+    } catch { /* keep going to play() */ }
+    audio.play().then(() => {
+      /* "playing" handler clears reconnect */
+    }).catch((err) => {
+      if (isAutoplayBlock(err)) {
+        state.pendingResume = true;
+        state.reconnecting = false;
+        render();
+        return;
+      }
+      scheduleReconnect();
+    });
+  }
+
+  function onNetworkOnline() {
+    if (!state.wantPlay || state.pendingResume) return;
+    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+    reconnectAttempt = 0;
+    reconnectStartedAt = Date.now();
+    state.reconnecting = true;
+    state.error = "";
+    renderNow();
+    tryReconnect();
+  }
+
+  function armWaitingReconnect() {
+    if (!state.wantPlay || state.pendingResume) return;
+    if (waitingTimer) clearTimeout(waitingTimer);
+    waitingTimer = setTimeout(() => {
+      waitingTimer = null;
+      if (!state.wantPlay || state.pendingResume) return;
+      if (audio.readyState >= 3 && !audio.paused) return;
+      scheduleReconnect();
+    }, WAITING_RECONNECT_MS);
+  }
+
+  /* ---------- Now playing metadata ---------- */
+  function prettify(str) {
+    const t0 = String(str || "").trim();
+    if (!t0) return "";
+    if (t0 === t0.toUpperCase() && /[A-Z]/.test(t0) && t0.length > 2) {
+      return t0.toLowerCase().replace(/(^|[\s(/:&\-,.])(\S)/g, (m, a, b) => a + b.toUpperCase());
+    }
+    return t0;
+  }
+
+  function isJunkTitle(title, artist) {
+    const blob = `${title} ${artist}`.trim().toLowerCase();
+    if (!blob) return true;
+    const junk = ["unknown", "n/a", "na", "-", "—", "null", "undefined", "advertisement", "stream title"];
+    return junk.includes(blob) || junk.includes(title.toLowerCase());
+  }
+
+  function tritonProp(xml, name) {
+    const re = new RegExp(`name="${name}"\\s*>\\s*(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?\\s*</property>`, "i");
+    const m = re.exec(xml);
+    return m ? m[1].trim() : "";
+  }
+
+  async function fetchTriton(mount, signal) {
+    const url = `https://np.tritondigital.com/public/nowplaying?mountName=${encodeURIComponent(mount)}&numberToFetch=1&eventType=track&_=${Date.now()}`;
+    const res = await fetch(url, { cache: "no-store", signal });
+    if (!res.ok) return null;
+    const xml = await res.text();
+    const title = prettify(tritonProp(xml, "cue_title"));
+    const artist = prettify(tritonProp(xml, "track_artist_name"));
+    if (isJunkTitle(title, artist)) return null;
+    return { title, artist };
+  }
+
+  function concatBytes(chunks) {
+    const total = chunks.reduce((n, c) => n + c.length, 0);
+    const out = new Uint8Array(total);
+    let off = 0;
+    for (const c of chunks) { out.set(c, off); off += c.length; }
+    return out;
+  }
+
+  async function fetchIcy(url, signal) {
+    const res = await fetch(url, {
+      mode: "cors",
+      cache: "no-store",
+      headers: { "Icy-MetaData": "1" },
+      signal
+    });
+    if (!res.ok || !res.body) return null;
+    const reader = res.body.getReader();
+    const chunks = [];
+    let received = 0;
+    const max = 40 * 1024;
+    try {
+      while (received < max) {
+        const { done, value } = await reader.read();
+        if (done || !value) break;
+        chunks.push(value);
+        received += value.length;
+      }
+    } finally {
+      try { await reader.cancel(); } catch { /* ignore */ }
+    }
+    const text = new TextDecoder("iso-8859-1").decode(concatBytes(chunks));
+    const m = /StreamTitle='([^']*)'/.exec(text);
+    if (!m) return null;
+    const raw = m[1].trim();
+    if (!raw) return null;
+    let title = raw;
+    let artist = "";
+    const parts = raw.split(" - ");
+    if (parts.length >= 2) {
+      artist = prettify(parts[0]);
+      title = prettify(parts.slice(1).join(" - "));
+    } else {
+      title = prettify(raw);
+    }
+    if (isJunkTitle(title, artist)) return null;
+    return { title, artist };
+  }
+
+  function stopNowPlayingPoll() {
+    if (nowPlayingTimer) { clearInterval(nowPlayingTimer); nowPlayingTimer = null; }
+    if (nowPlayingAbort) { try { nowPlayingAbort.abort(); } catch { /* ignore */ } nowPlayingAbort = null; }
+  }
+
+  async function pollNowPlaying() {
+    const s = byId(state.currentId);
+    if (!s || !state.playing || state.pendingResume || !s.nowPlaying) return;
+    if (nowPlayingAbort) { try { nowPlayingAbort.abort(); } catch { /* ignore */ } }
+    const ac = new AbortController();
+    nowPlayingAbort = ac;
+    const kill = setTimeout(() => ac.abort(), 7000);
+    try {
+      let info = null;
+      if (s.nowPlaying.type === "triton" && s.nowPlaying.mount) {
+        info = await fetchTriton(s.nowPlaying.mount, ac.signal);
+      } else if (s.nowPlaying.type === "icy") {
+        info = await fetchIcy(s.stream, ac.signal);
+      }
+      if (!info || ac.signal.aborted) return;
+      if (s.id !== state.currentId || !state.playing) return;
+      const nextTitle = info.title || "";
+      const nextArtist = info.artist || "";
+      if (nextTitle === state.trackTitle && nextArtist === state.trackArtist) return;
+      state.trackTitle = nextTitle;
+      state.trackArtist = nextArtist;
+      updateMediaSession();
+      renderNow();
+    } catch {
+      /* Station didn't provide metadata, or CORS blocked it — stay quiet. */
+    } finally {
+      clearTimeout(kill);
+    }
+  }
+
+  function startNowPlayingPoll() {
+    stopNowPlayingPoll();
+    const s = byId(state.currentId);
+    if (!s || !s.nowPlaying) return;
+    pollNowPlaying();
+    nowPlayingTimer = setInterval(pollNowPlaying, NOWPLAYING_POLL_MS);
+  }
+
   /* ---------- AirPlay ---------- */
   function setupAirPlay() {
-    // iOS/Safari: show the system AirPlay picker from the audio element
     audio.setAttribute("x-webkit-airplay", "allow");
     if (typeof audio.webkitShowPlaybackTargetPicker === "function") {
       state.airplayAvailable = true;
@@ -277,11 +777,13 @@
     const s = byId(state.currentId);
     if (!s) return;
     const art = new URL("icons/icon-512.png", appBase()).href;
+    const song = (state.trackTitle || "").trim();
+    const artist = (state.trackArtist || "").trim();
     try {
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: s.name,
-        artist: s.tagline || "Live radio",
-        album: "Home Radio",
+        title: song || stationName(s),
+        artist: song ? (artist || stationName(s)) : (stationTag(s) || "Live radio"),
+        album: song ? stationName(s) : "Home Radio",
         artwork: [
           { src: art, sizes: "192x192", type: "image/png" },
           { src: art, sizes: "512x512", type: "image/png" }
@@ -296,14 +798,14 @@
     const bind = (action, fn) => {
       try { navigator.mediaSession.setActionHandler(action, fn); } catch { /* unsupported */ }
     };
-    bind("play", () => playStation(state.currentId || stations[0].id));
-    bind("pause", pause);
-    bind("stop", pause);
+    bind("play", () => playStation(state.currentId || stations[0].id, { user: true }));
+    bind("pause", userStop);
+    bind("stop", userStop);
     bind("previoustrack", () => step(-1));
     bind("nexttrack", () => step(1));
   }
 
-  /* ---------- Sleep timer (borrowed from TuneIn / iHeart) ---------- */
+  /* ---------- Sleep timer ---------- */
   function fmtRemain(short) {
     if (!state.sleepEndsAt) return "";
     const ms = Math.max(0, state.sleepEndsAt - Date.now());
@@ -329,7 +831,7 @@
         renderNow();
       }
     }, 1000);
-    toast(`Sleep timer: ${minutes} minutes`);
+    toast(t("sleepSet", { n: minutes }));
     renderNow();
   }
 
@@ -339,11 +841,10 @@
     if (sleepTick) { clearInterval(sleepTick); sleepTick = null; }
     if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
     audio.volume = 1;
-    if (announce) toast("Sleep timer off");
+    if (announce) toast(t("sleepOff"));
   }
 
   function endSleep() {
-    // Gentle fade, then pause — nicer than a hard stop
     const start = audio.volume || 1;
     const t0 = Date.now();
     const dur = 3500;
@@ -354,14 +855,14 @@
       if (p >= 1) {
         clearInterval(fadeTimer);
         fadeTimer = null;
-        pause();
         audio.volume = 1;
         clearSleep(false);
-        toast("Sleep timer ended. Radio is off.");
+        userStop();
+        toast(t("sleepEnded"));
         render();
       }
     }, 80);
-    state.sleepEndsAt = Date.now(); // leftover 0
+    state.sleepEndsAt = Date.now();
   }
 
   /* ---------- sheets ---------- */
@@ -372,6 +873,7 @@
   }
   function closeSheets() {
     sleepSheet.hidden = true;
+    settingsSheet.hidden = true;
     airplayHelp.hidden = true;
   }
 
@@ -394,20 +896,19 @@
   gridEl.addEventListener("click", (e) => {
     const fav = e.target.closest("[data-fav]");
     if (fav) {
-      e.preventDefault();
       e.stopPropagation();
       toggleFav(fav.dataset.fav);
       return;
     }
     const tile = e.target.closest("[data-play]");
-    if (tile) playStation(tile.dataset.play);
+    if (tile) playStation(tile.dataset.play, { user: true });
   });
   gridEl.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     const tile = e.target.closest("[data-play]");
     if (!tile || e.target.closest("[data-fav]")) return;
     e.preventDefault();
-    playStation(tile.dataset.play);
+    playStation(tile.dataset.play, { user: true });
   });
 
   document.getElementById("playBtn").addEventListener("click", togglePlay);
@@ -417,6 +918,21 @@
   document.getElementById("sleepBtn").addEventListener("click", () => {
     renderSleepChoices();
     openSheet("sleepSheet");
+  });
+  document.getElementById("settingsBtn").addEventListener("click", () => {
+    applyBigText();
+    applyLangButtons();
+    openSheet("settingsSheet");
+  });
+  document.getElementById("bigTextToggle").addEventListener("click", () => {
+    setBigText(!state.bigText);
+  });
+  document.getElementById("langSeg").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-lang]");
+    if (btn) setLang(btn.dataset.lang);
+  });
+  document.getElementById("resumePlayBtn").addEventListener("click", () => {
+    if (state.currentId) playStation(state.currentId, { user: true });
   });
 
   sleepSheet.addEventListener("click", (e) => {
@@ -428,6 +944,9 @@
     }
     if (e.target.closest("[data-close]")) closeSheets();
   });
+  settingsSheet.addEventListener("click", (e) => {
+    if (e.target === settingsSheet || e.target.closest("[data-close]")) closeSheets();
+  });
   airplayHelp.addEventListener("click", (e) => {
     if (e.target === airplayHelp || e.target.closest("[data-close]")) closeSheets();
   });
@@ -438,26 +957,40 @@
   audio.addEventListener("playing", () => {
     state.playing = true;
     state.error = "";
+    state.reconnecting = false;
+    state.pendingResume = false;
+    if (waitingTimer) { clearTimeout(waitingTimer); waitingTimer = null; }
+    reconnectAttempt = 0;
+    reconnectStartedAt = 0;
+    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
     updateMediaSession();
+    startNowPlayingPoll();
     render();
   });
   audio.addEventListener("pause", () => {
-    // Ignore pauses caused by seeking/reload mid-play
+    if (state.reconnecting) return;
     if (!audio.ended && document.visibilityState === "hidden") return;
     if (audio.readyState < 2 && state.playing) return;
-    // If iOS interrupted, keep UI in sync
     state.playing = !audio.paused;
+    if (audio.paused && !state.wantPlay) stopNowPlayingPoll();
     updateMediaSession();
     renderNow();
   });
   audio.addEventListener("error", () => {
+    if (!state.wantPlay || state.pendingResume) return;
     state.playing = false;
-    state.error = "Can’t play this station. Try another, or check the Wi‑Fi.";
-    renderNow();
+    scheduleReconnect();
+  });
+  audio.addEventListener("stalled", () => {
+    armWaitingReconnect();
   });
   audio.addEventListener("waiting", () => {
-    // keep playing UI; buffering is normal for live radio
+    armWaitingReconnect();
   });
+  audio.addEventListener("canplay", () => {
+    if (waitingTimer) { clearTimeout(waitingTimer); waitingTimer = null; }
+  });
+  window.addEventListener("online", onNetworkOnline);
 
   document.getElementById("dismissInstall")?.addEventListener("click", () => {
     localStorage.setItem(STORAGE_INSTALL, "1");
@@ -476,11 +1009,18 @@
   }
 
   /* ---------- boot ---------- */
+  applyBigText();
+  applyI18n();
+  applyLangButtons();
   setupAirPlay();
   setupMediaSession();
   maybeInstallTip();
   render();
   updateMediaSession();
+
+  if (state.hasLast && state.currentId) {
+    playStation(state.currentId, { user: false });
+  }
 
   if ("serviceWorker" in navigator) {
     const base = appBase();

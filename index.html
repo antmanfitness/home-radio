@@ -15,6 +15,12 @@
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./styles.css">
+  <script>
+    try {
+      if (localStorage.getItem("homeRadio.bigText") === "1") document.documentElement.classList.add("big-text");
+      if (localStorage.getItem("homeRadio.lang") === "hi") document.documentElement.lang = "hi";
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <div class="wallpaper" aria-hidden="true">
@@ -25,9 +31,15 @@
 
   <div class="app">
     <header class="top">
-      <h1>Radio</h1>
+      <h1 data-i18n="appTitle">Radio</h1>
       <div class="top-actions">
-        <button class="icon-btn" id="sleepBtn" type="button" aria-label="Sleep timer">
+        <button class="icon-btn" id="settingsBtn" type="button" data-i18n-aria="settings" aria-label="Settings">
+          <!-- gear -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M10.2 2.4h3.6l.4 2.2c.6.2 1.2.6 1.7 1l2-1.1 2.6 2.5-1.2 2c.4.5.7 1.1 1 1.7l2.2.4v3.6l-2.2.4c-.3.6-.6 1.2-1 1.7l1.2 2-2.6 2.5-2-1.1c-.5.4-1.1.8-1.7 1l-.4 2.2h-3.6l-.4-2.2c-.6-.2-1.2-.6-1.7-1l-2 1.1-2.6-2.5 1.2-2c-.4-.5-.7-1.1-1-1.7L2.4 13.8V10.2l2.2-.4c.3-.6.6-1.2 1-1.7L4.4 6.1 7 3.6l2 1.1c.5-.4 1.1-.8 1.7-1l.5-2.3zM12 9.2A2.8 2.8 0 1 0 12 14.8 2.8 2.8 0 0 0 12 9.2z"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="sleepBtn" type="button" data-i18n-aria="sleepTimer" aria-label="Sleep timer">
           <!-- moon -->
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path fill="currentColor" d="M15.2 2.1a.9.9 0 0 1 1.1 1.2 8.2 8.2 0 1 0 4.3 9.8.9.9 0 0 1 1.7.5A10 10 0 1 1 14.3 2.3a.9.9 0 0 1 .9-.2z"/>
@@ -38,19 +50,19 @@
     </header>
 
     <div class="install" id="installTip" hidden>
-      <p><strong>Add this to the Home Screen</strong> so Radio is easy to open: tap the Share button, then <strong>Add to Home Screen</strong>.</p>
-      <button class="icon-btn" id="dismissInstall" type="button" aria-label="Dismiss">
+      <p data-i18n-html="installHtml"><strong>Add this to the Home Screen</strong> so Radio is easy to open: tap the Share button, then <strong>Add to Home Screen</strong>.</p>
+      <button class="icon-btn" id="dismissInstall" type="button" data-i18n-aria="dismiss" aria-label="Dismiss">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.7 6.7a1 1 0 0 1 1.4 0L12 10.6l3.9-3.9a1 1 0 1 1 1.4 1.4L13.4 12l3.9 3.9a1 1 0 0 1-1.4 1.4L12 13.4l-3.9 3.9a1 1 0 0 1-1.4-1.4L10.6 12 6.7 8.1a1 1 0 0 1 0-1.4z"/></svg>
       </button>
     </div>
 
-    <nav class="seg" id="tabs" role="tablist" aria-label="Station lists">
+    <nav class="seg" id="tabs" role="tablist" data-i18n-aria="stationLists" aria-label="Station lists">
       <button class="tab" type="button" role="tab" data-view="favorites" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21s-6.6-4.35-9.33-8.2C.7 9.9 1.6 6.2 4.7 5.1 6.7 4.4 8.7 5 12 8c3.3-3 5.3-3.6 7.3-2.9 3.1 1.1 4 4.8 2.03 7.7C18.6 16.65 12 21 12 21z"/></svg>
-        Favorites
+        <span data-i18n="favorites">Favorites</span>
       </button>
       <button class="tab" type="button" role="tab" data-view="all" aria-selected="true">
-        All Stations
+        <span data-i18n="allStations">All Stations</span>
       </button>
     </nav>
 
@@ -62,23 +74,23 @@
     <div class="now__meta">
       <p class="now__name" id="nowName">Choose a station</p>
       <p class="now__sub" id="nowSub">Tap a station to play</p>
-      <button class="airplay-btn" id="airplayBtn" type="button" aria-label="AirPlay — send sound to a HomePod or Apple TV">
+      <button class="airplay-btn" id="airplayBtn" type="button" data-i18n-aria="airplayAria" aria-label="AirPlay — send sound to a HomePod or Apple TV">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4.2 4.2h15.6A1.8 1.8 0 0 1 21.6 6v9.2a1.8 1.8 0 0 1-1.8 1.8h-2.3"/>
           <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6.5 17H5.4A1.8 1.8 0 0 1 3.6 15.2V6A1.8 1.8 0 0 1 5.4 4.2"/>
           <path fill="currentColor" d="M12 14.2 6.8 21h10.4L12 14.2z"/>
         </svg>
-        AirPlay
+        <span data-i18n="airplay">AirPlay</span>
       </button>
     </div>
     <div class="now__controls">
-      <button class="ctrl" id="prevBtn" type="button" aria-label="Previous station">
+      <button class="ctrl" id="prevBtn" type="button" data-i18n-aria="prev" aria-label="Previous station">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 6h2.2v12H6V6zm3.4 6.1 9 5.8c.6.4 1.4 0 1.4-.7V6.8c0-.8-.8-1.1-1.4-.7l-9 5.8a.8.8 0 0 0 0 1.4z"/></svg>
       </button>
-      <button class="play-btn" id="playBtn" type="button" aria-label="Play">
+      <button class="play-btn" id="playBtn" type="button" data-i18n-aria="play" aria-label="Play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.2v13.6c0 .7.8 1.1 1.4.7l10-6.8c.6-.4.6-1.2 0-1.6l-10-6.8C8.8 4.1 8 4.5 8 5.2z"/></svg>
       </button>
-      <button class="ctrl" id="nextBtn" type="button" aria-label="Next station">
+      <button class="ctrl" id="nextBtn" type="button" data-i18n-aria="next" aria-label="Next station">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.8 6H18v12h-2.2V6zM4.2 6.8v10.4c0 .7.8 1.1 1.4.7l9-5.8a.8.8 0 0 0 0-1.4l-9-5.8c-.6-.4-1.4 0-1.4.7z"/></svg>
       </button>
     </div>
@@ -86,28 +98,59 @@
 
   <audio id="player" playsinline webkit-playsinline preload="none" x-webkit-airplay="allow"></audio>
 
+  <div class="resume" id="resumePlay" hidden>
+    <button type="button" class="resume__btn" id="resumePlayBtn">
+      <span class="resume__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.2v13.6c0 .7.8 1.1 1.4.7l10-6.8c.6-.4.6-1.2 0-1.6l-10-6.8C8.8 4.1 8 4.5 8 5.2z"/></svg>
+      </span>
+      <span class="resume__label" id="resumeLabel">Tap to play</span>
+      <span class="resume__station" id="resumeStation"></span>
+    </button>
+  </div>
+
+  <div class="overlay" id="settingsSheet" hidden role="dialog" aria-labelledby="settingsTitle">
+    <div class="sheet">
+      <h2 id="settingsTitle" data-i18n="settings">Settings</h2>
+      <div class="setting-row">
+        <div>
+          <p class="setting-label" data-i18n="biggerText">Bigger text</p>
+          <p class="setting-hint" data-i18n="biggerTextHint">Makes buttons and words easier to read</p>
+        </div>
+        <button class="switch" id="bigTextToggle" type="button" role="switch" aria-checked="false" data-i18n-aria="biggerText"></button>
+      </div>
+      <div class="setting-row setting-row--stack">
+        <p class="setting-label" data-i18n="language">Language</p>
+        <div class="lang-seg" id="langSeg" role="radiogroup" data-i18n-aria="language">
+          <button type="button" class="lang-opt" data-lang="en" aria-pressed="true">English</button>
+          <button type="button" class="lang-opt" data-lang="hi" aria-pressed="false">हिंदी</button>
+        </div>
+      </div>
+      <button class="sheet__cancel" type="button" data-close data-i18n="done">Done</button>
+    </div>
+  </div>
+
   <div class="overlay" id="sleepSheet" hidden role="dialog" aria-labelledby="sleepTitle">
     <div class="sheet">
-      <h2 id="sleepTitle">Sleep timer</h2>
-      <p class="lead">The radio will fade out and stop after this time.</p>
+      <h2 id="sleepTitle" data-i18n="sleepTimer">Sleep timer</h2>
+      <p class="lead" data-i18n="sleepLead">The radio will fade out and stop after this time.</p>
       <div class="choices">
-        <button class="choice" type="button" data-sleep="15">15 minutes</button>
-        <button class="choice" type="button" data-sleep="30">30 minutes</button>
-        <button class="choice" type="button" data-sleep="45">45 minutes</button>
-        <button class="choice" type="button" data-sleep="60">1 hour</button>
-        <button class="choice" type="button" data-sleep="90">90 minutes</button>
-        <button class="choice" type="button" data-sleep="0">Don’t stop</button>
+        <button class="choice" type="button" data-sleep="15" data-i18n="min15">15 minutes</button>
+        <button class="choice" type="button" data-sleep="30" data-i18n="min30">30 minutes</button>
+        <button class="choice" type="button" data-sleep="45" data-i18n="min45">45 minutes</button>
+        <button class="choice" type="button" data-sleep="60" data-i18n="min60">1 hour</button>
+        <button class="choice" type="button" data-sleep="90" data-i18n="min90">90 minutes</button>
+        <button class="choice" type="button" data-sleep="0" data-i18n="dontStop">Don’t stop</button>
       </div>
-      <button class="sheet__cancel" type="button" data-close>Cancel</button>
+      <button class="sheet__cancel" type="button" data-close data-i18n="cancel">Cancel</button>
     </div>
   </div>
 
   <div class="overlay" id="airplayHelp" hidden role="dialog" aria-labelledby="airplayTitle">
     <div class="sheet">
-      <h2 id="airplayTitle">Play on a HomePod or Apple TV</h2>
-      <p class="lead">Open this page in <strong>Safari</strong> on iPhone or iPad, start a station, then tap <strong>AirPlay</strong> and choose the speaker. A web app can’t appear in the Home app or CarPlay, but AirPlay sends the sound to any HomePod or Apple TV on the same Wi‑Fi.</p>
-      <p class="lead">On a Mac, the AirPlay button in Safari’s media controls also works.</p>
-      <button class="btn-solid" type="button" data-close style="width:100%">OK</button>
+      <h2 id="airplayTitle" data-i18n="airplayTitle">Play on a HomePod or Apple TV</h2>
+      <p class="lead" data-i18n-html="airplayHelp1">Open this page in <strong>Safari</strong> on iPhone or iPad, start a station, then tap <strong>AirPlay</strong> and choose the speaker. A web app can’t appear in the Home app or CarPlay, but AirPlay sends the sound to any HomePod or Apple TV on the same Wi‑Fi.</p>
+      <p class="lead" data-i18n="airplayHelp2">On a Mac, the AirPlay button in Safari’s media controls also works.</p>
+      <button class="btn-solid" type="button" data-close style="width:100%" data-i18n="ok">OK</button>
     </div>
   </div>
 

@@ -1,5 +1,5 @@
 const BASE = new URL("./", self.location).href;
-const CACHE = "home-radio-v4";
+const CACHE = "home-radio-v5";
 const SHELL = [
   BASE,
   BASE + "index.html",

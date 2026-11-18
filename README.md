@@ -11,9 +11,11 @@ https://antmanfitness.github.io/home-radio/
 ## Put it on her iPhone
 
 1. Open the live link above in **Safari** (AirPlay only works in Safari, not in Chrome).
-3. Tap **Share** → **Add to Home Screen**. Open it from the new Radio icon.
-4. Tap a station. To hear it on a HomePod or Apple TV, tap **AirPlay** in the now-playing bar and pick the speaker (same Wi‑Fi).
+2. Tap **Share** → **Add to Home Screen**. Open it from the new Radio icon.
+3. The app remembers her last station and starts it when she opens it. If the phone needs a tap first, a large **Tap to play** button appears.
+4. To hear it on a HomePod or Apple TV, tap **AirPlay** in the now-playing bar and pick the speaker (same Wi‑Fi).
 5. Lock the phone — play, pause, and next/previous station work from the lock screen and Control Center.
+6. In **Settings** (the gear), she can turn on **Bigger text** or switch the labels to **हिंदी**.
 
 ### What a web app cannot do
 
@@ -28,13 +30,20 @@ Kept only what stays simple for her:
 - **iHeartRadio:** live radio presented as a logo/tile grid, a sleep timer, and a persistent player so play/pause is always in reach.
 - **Radio Garden:** the idea of “tap a station, it just plays.” The globe map was left out — too fussy for everyday use.
 
+Also included, still kept simple:
+
+- **Resume on open**, with a single large Tap to play button when iPhone blocks autoplay.
+- **Quiet auto-reconnect** if the stream or Wi‑Fi drops (no error pop-ups).
+- **Song titles** on the now-playing bar and lock screen, when a station provides them.
+- **Bigger text** and **English / हिंदी** labels, saved on the phone.
+
 Left out on purpose: search, accounts, podcasts, alarms, recommendations, and a world map.
 
 ## Stations
 
 The list is built for Krishna’s mom: local NJ/NY South Asian stations first (Radio Mirchi USA and Radio Zindagi in Edison at the top), plus a smaller **From India** group (Vividh Bharati, AIR FM Gold, Club Mirchi). Only HTTPS streams that were verified to return audio are included. Edit `stations.js` to add or change stations.
 
-Favorites are stored only on the phone (localStorage).
+Favorites, the last station, text size, and language are stored only on the phone (localStorage).
 
 ## Local preview
 

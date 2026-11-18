@@ -37,6 +37,8 @@ Also included, still kept simple:
 - **Song titles** on the now-playing bar and lock screen, when a station provides them.
 - **Bigger text** and **English / हिंदी** labels, saved on the phone.
 
+The layout is **iPhone Duo** friendly. On the narrow front (cover) screen it stays the simple phone grid, and shows next/previous when they fit. On the large inside screen — or any wide or nearly square window — it becomes two panes: stations on the left, a large now-playing panel on the right. Folding, unfolding, or rotating only reflows the layout; playback does not stop. The app follows the screen size and, when the browser provides it, the fold/hinge (`viewport-segment` environment variables). It does not sniff for a specific device.
+
 Left out on purpose: search, accounts, podcasts, alarms, recommendations, and a world map.
 
 ## Stations

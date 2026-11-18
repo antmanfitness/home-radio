@@ -384,14 +384,19 @@
     air.classList.toggle("is-wireless", state.airplayWireless);
     air.setAttribute("aria-label", state.airplayWireless ? t("airplayWireless") : t("airplayAria"));
 
-    const sleepBtn = document.getElementById("sleepBtn");
-    sleepBtn.classList.toggle("is-active", !!state.sleepEndsAt);
-    const badge = sleepBtn.querySelector(".badge");
-    if (state.sleepEndsAt) {
-      badge.hidden = false;
-      badge.textContent = fmtRemain(true);
-    } else {
-      badge.hidden = true;
+    const remain = state.sleepEndsAt ? fmtRemain(true) : "";
+    for (const id of ["sleepBtn", "nowSleepBtn"]) {
+      const btn = document.getElementById(id);
+      if (!btn) continue;
+      btn.classList.toggle("is-active", !!state.sleepEndsAt);
+      const badge = btn.querySelector(".badge");
+      if (!badge) continue;
+      if (state.sleepEndsAt) {
+        badge.hidden = false;
+        badge.textContent = remain;
+      } else {
+        badge.hidden = true;
+      }
     }
   }
 
@@ -915,10 +920,12 @@
   document.getElementById("prevBtn").addEventListener("click", () => step(-1));
   document.getElementById("nextBtn").addEventListener("click", () => step(1));
   document.getElementById("airplayBtn").addEventListener("click", openAirPlay);
-  document.getElementById("sleepBtn").addEventListener("click", () => {
+  const openSleep = () => {
     renderSleepChoices();
     openSheet("sleepSheet");
-  });
+  };
+  document.getElementById("sleepBtn").addEventListener("click", openSleep);
+  document.getElementById("nowSleepBtn").addEventListener("click", openSleep);
   document.getElementById("settingsBtn").addEventListener("click", () => {
     applyBigText();
     applyLangButtons();
@@ -1009,6 +1016,15 @@
   }
 
   /* ---------- boot ---------- */
+  /* Duo / wide layout is CSS. This class is only a hook; never touch audio on resize. */
+  const DUO_MQ = window.matchMedia(
+    "(min-width: 700px) and (min-height: 600px), (min-width: 600px) and (min-height: 700px), (horizontal-viewport-segments: 2)"
+  );
+  const syncDuo = () => document.documentElement.classList.toggle("duo", !!DUO_MQ.matches);
+  syncDuo();
+  if (DUO_MQ.addEventListener) DUO_MQ.addEventListener("change", syncDuo);
+  else if (DUO_MQ.addListener) DUO_MQ.addListener(syncDuo);
+
   applyBigText();
   applyI18n();
   applyLangButtons();

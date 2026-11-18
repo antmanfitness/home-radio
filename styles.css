@@ -65,7 +65,7 @@
     }
   }
   .wallpaper__orb { display: none; }
-  .glass, .tile, .now, .sheet, .tab, .icon-btn, .play-btn, .airplay-btn, .empty, .toast, .resume__btn, .switch, .setting-row, .lang-opt {
+  .glass, .tile, .now, .sheet, .tab, .icon-btn, .play-btn, .airplay-btn, .empty, .toast, .resume__btn, .switch, .setting-row, .lang-opt, .now-sleep {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -168,12 +168,16 @@ button, input {
   .wallpaper__orb--c { background: #163a5c; opacity: 0.4; }
 }
 
+.shell { position: relative; z-index: 1; }
+
 .app {
   position: relative;
   z-index: 1;
   max-width: 980px;
   margin: 0 auto;
   padding: calc(var(--safe-top) + 12px) 16px calc(var(--now-bar-h) + var(--safe-bot) + 20px);
+  container-type: inline-size;
+  container-name: stations;
 }
 
 /* Header */
@@ -557,19 +561,54 @@ button, input {
 .airplay-btn:focus-visible { outline: none; box-shadow: var(--focus); }
 
 /* AirPlay lives in the meta column so the play cluster stays one clean row */
-.now__meta .airplay-btn {
+.now__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.now__meta .airplay-btn,
+.now__meta .now-sleep {
   min-height: 40px;
   padding: 0 12px;
   font-size: 15px;
 }
+.now-sleep { display: none; position: relative; }
+.now-sleep .badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  display: grid;
+  place-items: center;
+}
+.now-sleep .badge[hidden] { display: none !important; }
+.now-sleep.is-active { color: var(--accent); border-color: var(--accent); }
 .now__name { text-align: left; width: 100%; }
 
-/* Phone: keep a big Play + labeled AirPlay; skip is still on tiles and the lock screen */
+/* Folded / narrow phone: compact prev/next if they fit beside Play */
 @media (max-width: 560px) {
+  .now__art { width: 64px; height: 64px; font-size: 16px; }
+  .now__name { font-size: 19px; }
+  .play-btn { width: 60px; height: 60px; }
+  .now__controls { gap: 0; }
+  .now__controls .ctrl { display: grid; width: 40px; height: 40px; }
+  .now__controls .ctrl svg { width: 22px; height: 22px; }
+}
+@media (max-width: 560px) {
+  html.big-text .now__controls .ctrl { display: none; }
+  html.big-text .now__art { width: 72px; height: 72px; font-size: 18px; }
+  html.big-text .play-btn { width: 64px; height: 64px; }
+}
+@media (max-width: 359px) {
   .now__controls .ctrl { display: none; }
-  .now__art { width: 72px; height: 72px; font-size: 18px; }
-  .now__name { font-size: 20px; }
-  .play-btn { width: 64px; height: 64px; }
 }
 
 
@@ -877,3 +916,155 @@ html.big-text .empty p { font-size: 20px; }
 
 .status-reconnect { color: var(--text-secondary); font-weight: 600; }
 
+
+
+/* ---------- iPhone Duo / wide or square inside screen ----------
+   Same approach as The Brief: width + aspect/height queries, not device sniffing.
+   The folded cover is ~375×750 (or 750×375 in landscape), so the short side stays
+   under ~500. The unfolded inside screen is ~7.5–8in and nearly square
+   (e.g. 900×1100). horizontal-viewport-segments:2 covers a real hinge. */
+@media (min-width: 700px) and (min-height: 600px),
+       (min-width: 600px) and (min-height: 700px),
+       (horizontal-viewport-segments: 2) {
+  .shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    column-gap: 24px;
+    align-items: stretch;
+    height: 100dvh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: calc(var(--safe-top) + 8px) max(16px, env(safe-area-inset-right, 0px)) calc(var(--safe-bot) + 10px) max(16px, env(safe-area-inset-left, 0px));
+    box-sizing: border-box;
+  }
+
+  .app {
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: auto;
+    padding: 4px 8px 24px;
+    scrollbar-width: thin;
+  }
+
+  /* Station grid follows the left pane, not the full viewport */
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+  .now {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    top: auto;
+    transform: none;
+    width: auto;
+    max-width: none;
+    min-height: 0;
+    height: auto;
+    align-self: stretch;
+    margin: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 36px 32px 32px;
+    border-radius: 36px;
+    overflow: auto;
+    grid-template-columns: none;
+  }
+
+  .now__art {
+    width: min(280px, 42vw, 36vh);
+    height: auto;
+    aspect-ratio: 1;
+    font-size: clamp(36px, 6vh, 56px);
+    border-radius: 36px;
+    flex: none;
+  }
+
+  .now__meta {
+    align-items: center;
+    text-align: center;
+    width: min(100%, 420px);
+    gap: 10px;
+  }
+  .now__name {
+    font-size: clamp(26px, 3.2vh, 36px);
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+  .now__sub {
+    font-size: clamp(16px, 2vh, 20px);
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .now__controls {
+    gap: 18px;
+    order: 3;
+  }
+  .now__controls .ctrl {
+    display: grid !important;
+    width: 64px;
+    height: 64px;
+  }
+  .now__controls .ctrl svg { width: 32px; height: 32px; }
+  .play-btn { width: 96px; height: 96px; }
+  .play-btn svg { width: 44px; height: 44px; }
+
+  .now__actions {
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .now__meta .airplay-btn,
+  .now__meta .now-sleep {
+    min-height: 52px;
+    padding: 0 18px;
+    font-size: 17px;
+    border-radius: 16px;
+  }
+  .now-sleep { display: inline-flex; }
+  .top-actions #sleepBtn { display: none; } /* sleep lives on the now-playing panel */
+
+  html.big-text .now__art { width: min(300px, 44vw, 38vh); }
+  html.big-text .now__name { font-size: clamp(28px, 3.6vh, 40px); }
+  html.big-text .now__sub { font-size: clamp(18px, 2.2vh, 22px); }
+  html.big-text .play-btn { width: 104px; height: 104px; }
+  html.big-text .now__controls .ctrl { display: grid !important; width: 68px; height: 68px; }
+}
+
+@container stations (min-width: 520px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+}
+
+/* Real hinge / dual-segment viewport: keep panes off the fold */
+@media (horizontal-viewport-segments: 2) {
+  .shell {
+    max-width: none;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0));
+    grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0);
+  }
+  .app {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: 20px;
+  }
+  .now {
+    margin: 8px max(20px, env(safe-area-inset-right, 0px)) 8px 20px;
+  }
+}

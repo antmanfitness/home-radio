@@ -120,7 +120,11 @@
     }
   };
 
-  /* Trailing-slash-safe base for GitHub Pages (/home-radio/) and local preview. */
+  /* True only inside the installed iOS app (Capacitor injects window.Capacitor before this script runs). */
+  const IS_NATIVE = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === "function" && window.Capacitor.isNativePlatform());
+  if (IS_NATIVE) document.documentElement.classList.add("native-app");
+
+  /* Trailing-slash-safe base: /home-radio/ on GitHub Pages, / in the iOS app (capacitor://localhost/) and local preview. */
   function appBase() {
     const url = new URL(window.location.href);
     let path = url.pathname;
@@ -917,6 +921,24 @@
   });
 
   document.getElementById("playBtn").addEventListener("click", togglePlay);
+  /* Double-tap anywhere on the player bar (not on its buttons) to play or pause. */
+  (() => {
+    const bar = document.querySelector(".now");
+    if (!bar) return;
+    let lastTap = 0;
+    let lastTouchToggle = 0;
+    bar.addEventListener("touchend", (e) => {
+      if (e.target.closest("button, a, input")) return;
+      const t = Date.now();
+      if (t - lastTap < 320) { e.preventDefault(); lastTap = 0; lastTouchToggle = t; togglePlay(); }
+      else lastTap = t;
+    }, { passive: false });
+    bar.addEventListener("dblclick", (e) => {
+      if (e.target.closest("button, a, input")) return;
+      if (Date.now() - lastTouchToggle < 800) return;
+      togglePlay();
+    });
+  })();
   document.getElementById("prevBtn").addEventListener("click", () => step(-1));
   document.getElementById("nextBtn").addEventListener("click", () => step(1));
   document.getElementById("airplayBtn").addEventListener("click", openAirPlay);
@@ -1006,7 +1028,7 @@
 
   /* ---------- install tip (Add to Home Screen) ---------- */
   function maybeInstallTip() {
-    const standalone = window.navigator.standalone === true
+    const standalone = IS_NATIVE || window.navigator.standalone === true
       || window.matchMedia("(display-mode: standalone)").matches;
     if (standalone || localStorage.getItem(STORAGE_INSTALL) === "1") {
       installEl.hidden = true;
@@ -1038,7 +1060,8 @@
     playStation(state.currentId, { user: false });
   }
 
-  if ("serviceWorker" in navigator) {
+  /* No service worker in the iOS app: the files are already inside the app, and WKWebView does not run SWs there. */
+  if (!IS_NATIVE && "serviceWorker" in navigator) {
     const base = appBase();
     navigator.serviceWorker.register(new URL("sw.js", base), { scope: base.pathname }).catch(() => {});
   }

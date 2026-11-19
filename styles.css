@@ -1083,3 +1083,4 @@ html:not(.duo) .now .airplay-btn { min-height: 44px; padding: 0 10px; font-size:
 html:not(.duo) .now .airplay-btn svg { width: 18px; height: 18px; }
 html.big-text:not(.duo) .now__name { font-size: 21px; }
 html.big-text:not(.duo) .now__sub { font-size: 15px; }
+.now { touch-action: manipulation; -webkit-user-select: none; user-select: none; }

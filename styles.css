@@ -755,8 +755,8 @@ html.big-text .choice,
 html.big-text .btn-solid { font-size: 22px; min-height: 60px; }
 html.big-text .setting-label { font-size: 22px; }
 html.big-text .setting-hint { font-size: 17px; }
-html.big-text .resume__label { font-size: 36px; }
-html.big-text .resume__station { font-size: 26px; }
+html.big-text .resume__label { font-size: 29px; }
+html.big-text .resume__station { font-size: 21px; }
 html.big-text .empty h2 { font-size: 30px; }
 html.big-text .empty p { font-size: 20px; }
 @media (max-width: 560px) {
@@ -869,23 +869,23 @@ html.big-text .empty p { font-size: 20px; }
   -webkit-backdrop-filter: blur(40px) saturate(180%);
   box-shadow: var(--glass-shadow);
   color: var(--text);
-  width: min(420px, 100%);
-  min-height: 280px;
-  border-radius: 36px;
-  padding: 36px 24px 32px;
+  width: min(330px, 100%);
+  min-height: 215px;
+  border-radius: 30px;
+  padding: 28px 20px 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 11px;
   cursor: pointer;
   text-align: center;
 }
 .resume__btn:active { transform: scale(0.98); }
 .resume__btn:focus-visible { outline: none; box-shadow: var(--glass-shadow), var(--focus); }
 .resume__icon {
-  width: 108px;
-  height: 108px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   background: var(--text);
   color: var(--bg-2);
@@ -894,18 +894,18 @@ html.big-text .empty p { font-size: 20px; }
   box-shadow: 0 10px 28px rgba(0,0,0,0.28);
   margin-bottom: 6px;
 }
-.resume__icon svg { width: 52px; height: 52px; margin-left: 6px; }
+.resume__icon svg { width: 40px; height: 40px; margin-left: 5px; }
 @media (prefers-color-scheme: dark) {
   .resume__icon { background: #fff; color: #000; }
 }
 .resume__label {
-  font-size: 32px;
+  font-size: 25px;
   font-weight: 750;
   letter-spacing: -0.04em;
   line-height: 1.15;
 }
 .resume__station {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-secondary);
   max-width: 100%;

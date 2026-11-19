@@ -1,4 +1,4 @@
-# Home Radio
+# Desi Dil Radio
 
 A senior-simple live-radio web app for Krishna’s mom. Large CarPlay-style station tiles, a big now-playing bar, favorites, a sleep timer, and an obvious **AirPlay** button so she can send sound to a HomePod or Apple TV.
 

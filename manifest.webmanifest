@@ -1,6 +1,6 @@
 {
-  "name": "Radio",
-  "short_name": "Radio",
+  "name": "Desi Dil Radio",
+  "short_name": "Desi Dil",
   "description": "Simple live radio with favorites, a sleep timer, and AirPlay for HomePod.",
   "start_url": "/home-radio/",
   "scope": "/home-radio/",

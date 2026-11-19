@@ -1,4 +1,4 @@
-/* Home Radio — simple player for iPhone + AirPlay + lock-screen controls */
+/* Desi Dil Radio — simple player for iPhone + AirPlay + lock-screen controls */
 (() => {
   const STORAGE_FAVS = "homeRadio.favorites";
   const STORAGE_LAST = "homeRadio.lastStation";
@@ -13,7 +13,7 @@
 
   const STRINGS = {
     en: {
-      appTitle: "Radio",
+      appTitle: "Desi Dil Radio",
       favorites: "Favorites",
       allStations: "All Stations",
       stationLists: "Station lists",
@@ -46,7 +46,7 @@
       biggerText: "Bigger text",
       biggerTextHint: "Makes buttons and words easier to read",
       language: "Language",
-      installHtml: "<strong>Add this to the Home Screen</strong> so Radio is easy to open: tap the Share button, then <strong>Add to Home Screen</strong>.",
+      installHtml: "<strong>Add this to the Home Screen</strong> so Desi Dil Radio is easy to open: tap the Share button, then <strong>Add to Home Screen</strong>.",
       dismiss: "Dismiss",
       emptyFavTitle: "No favorites yet",
       emptyFavBody: "On All Stations, tap the heart on a station you love. It will show up here so it’s easy to find.",
@@ -66,7 +66,7 @@
       removeFav: "Remove from favorites"
     },
     hi: {
-      appTitle: "रेडियो",
+      appTitle: "देशी दिल रेडियो",
       favorites: "पसंदीदा",
       allStations: "सभी स्टेशन",
       stationLists: "स्टेशन सूची",
@@ -99,7 +99,7 @@
       biggerText: "बड़े अक्षर",
       biggerTextHint: "बटन और शब्द पढ़ने में आसान होंगे",
       language: "भाषा",
-      installHtml: "<strong>इसे होम स्क्रीन पर जोड़ें</strong> ताकि रेडियो खोलना आसान रहे: Share बटन टैप करें, फिर <strong>Add to Home Screen</strong>।",
+      installHtml: "<strong>इसे होम स्क्रीन पर जोड़ें</strong> ताकि देशी दिल रेडियो खोलना आसान रहे: Share बटन टैप करें, फिर <strong>Add to Home Screen</strong>।",
       dismiss: "बंद करें",
       emptyFavTitle: "अभी कोई पसंदीदा नहीं",
       emptyFavBody: "सभी स्टेशन पर, जो स्टेशन पसंद हो उसके दिल पर टैप करें। वह यहाँ दिखेगा, ताकि आसानी से मिल जाए।",
@@ -792,7 +792,7 @@
       navigator.mediaSession.metadata = new MediaMetadata({
         title: song || stationName(s),
         artist: song ? (artist || stationName(s)) : (stationTag(s) || "Live radio"),
-        album: song ? stationName(s) : "Home Radio",
+        album: song ? stationName(s) : "Desi Dil Radio",
         artwork: [
           { src: art, sizes: "192x192", type: "image/png" },
           { src: art, sizes: "512x512", type: "image/png" }

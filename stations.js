@@ -1,4 +1,4 @@
-/* Curated live streams for Home Radio.
+/* Curated live streams for Desi Dil Radio.
    Only HTTPS URLs that were verified to return audio are listed.
    nowPlaying: optional, free public metadata (skipped quietly when missing). */
 window.STATIONS = [

@@ -1068,3 +1068,18 @@ html.big-text .empty p { font-size: 20px; }
     margin: 8px max(20px, env(safe-area-inset-right, 0px)) 8px 20px;
   }
 }
+
+/* Compact bottom player (about 22% smaller), phone layout only */
+html:not(.duo) .now { gap: 10px; padding: 11px 11px 12px; min-height: 84px; border-radius: 24px; }
+html:not(.duo) .now__art { width: 62px; height: 62px; border-radius: 16px; font-size: 16px; }
+html:not(.duo) .now__meta { gap: 6px; }
+html:not(.duo) .now__name { font-size: 18px; }
+html:not(.duo) .now__sub { font-size: 13px; min-height: 18px; }
+html:not(.duo) .now .ctrl { width: 44px; height: 44px; }
+html:not(.duo) .now .ctrl svg { width: 22px; height: 22px; }
+html:not(.duo) .now .play-btn { width: 54px; height: 54px; }
+html:not(.duo) .now .play-btn svg { width: 25px; height: 25px; }
+html:not(.duo) .now .airplay-btn { min-height: 44px; padding: 0 10px; font-size: 13px; }
+html:not(.duo) .now .airplay-btn svg { width: 18px; height: 18px; }
+html.big-text:not(.duo) .now__name { font-size: 21px; }
+html.big-text:not(.duo) .now__sub { font-size: 15px; }
